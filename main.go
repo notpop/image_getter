@@ -1,10 +1,16 @@
 package main
 
 import (
+	"fmt"
 	"image_getter/config"
 	"io"
 	"net/http"
 	"os"
+)
+
+const (
+	IMAGE_DIRECTORY_PATH = "images/test/"
+	IMAGE_PATH           = "save.jpeg"
 )
 
 func main() {
@@ -14,7 +20,12 @@ func main() {
 	}
 	defer response.Body.Close()
 
-	file, err := os.Create("save.jpeg")
+	err = os.MkdirAll(IMAGE_DIRECTORY_PATH, 0777)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	file, err := os.Create(IMAGE_DIRECTORY_PATH + IMAGE_PATH)
 	if err != nil {
 		panic(err)
 	}
